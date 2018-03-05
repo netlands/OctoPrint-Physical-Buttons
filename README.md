@@ -2,7 +2,7 @@
 
 This plugin allows you to add a physical Pause/Start and Stop button to OctoPrint.
 
-Code is based almost completly on the Octoprint-Filament-Reloaded plugin by ǝuıɥsuooɯ (https://github.com/MoonshineSG/Octoprint-Filament).
+Code is based almost completly on the Octoprint-Filament plugin by ǝuıɥsuooɯ (https://github.com/MoonshineSG/Octoprint-Filament).
 
 
 ## Setup
