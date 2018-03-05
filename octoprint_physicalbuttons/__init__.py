@@ -28,23 +28,14 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		self._logger.info("Filament Sensor Plugin [%s] initialized..."%self._identifier)
 
 	def on_after_startup(self):
-		self.PIN_FILAMENT = self._settings.get(["sensor"])
 		self.PIN_PAUSE = self._settings.get(["pause"])
 		self.PIN_STOP = self._settings.get(["stop"])
 		self.BOUNCE = self._settings.get_int(["bounce"])
-		
-		if self.PIN_FILAMENT != -1:
-			self._logger.info("Filament Sensor Plugin setup on GPIO [%s]..."%self.PIN_FILAMENT)
-			GPIO.setup(self.PIN_FILAMENT, GPIO.IN)
 
 		if self.PIN_PAUSE != -1:
 			self._logger.info("Pause button setup on GPIO [%s]..."%self.PIN_PAUSE)
 			GPIO.setup(self.PIN_FILAMENT, GPIO.IN)
 
-		if self.PIN_STOP != -1:
-			self._logger.info("Stop button setup on GPIO [%s]..."%self.PIN_STOP)
-			GPIO.setup(self.PIN_FILAMENT, GPIO.IN)
-		
 	def get_settings_defaults(self):
 		return dict(
 			pin = -1,
