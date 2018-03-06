@@ -34,9 +34,15 @@ Save the changes with **Ctrl-X** and then **Y** (for yes).
    `sudo chmod a+rw /dev/gpiomem`
  
  #### 3. Install the plugin in OctoPrint using the **Plugin Manager** 
-Download the latest  install from the below URL:  https://github.com/netlands/OctoPrint-Physical-Buttons/archive/master.zip
+Download the latest version, or install directly using the URL:  
+
+https://github.com/netlands/OctoPrint-Physical-Buttons/archive/master.zip
  
 Click **Settings** (the Tool icon at the top) > **Plugin Manager**
+
+Click the **Get More** button, and under **... from URL** enter the above URL and click install **Install**. 
+ 
+ OR alternatively
  
 Click the **Get More** button, and under **... from an uploaded archive** click **Browse**. Browse to the downloaded .zip file and click **Install**. 
 
