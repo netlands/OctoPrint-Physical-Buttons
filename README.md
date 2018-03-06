@@ -1,6 +1,6 @@
 # OctoPrint-Physical-Buttons
 
-This plugin allows you to add a physical Pause (Resume) and a Stop (Start) to OctoPrint.
+This plugin allows you to add a physical Pause (Resume) button and an emergency Stop button to OctoPrint.
 
 Code is based almost completely on the **Octoprint-Filament plugin** by **ǝuıɥsuooɯ** (https://github.com/MoonshineSG/Octoprint-Filament).
 
