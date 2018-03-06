@@ -89,26 +89,26 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 
 	def check_gpio(self, channel):
 		self._logger.debug("Detected button [%s]"%channel)
-		state = GPIO.input(self.PIN_PAUSE)
-		# self._logger.debug("Detected button [%s] state [%s]"%(channel, state))
-		if not state: 
-			self._logger.debug("Pause button [%s]!"%state)
+		# state = GPIO.input(self.PIN_PAUSE)
+		# if not state: 
+		if channel == self.PIN_PAUSE
+			self._logger.debug("Pause button ([%s]) state [%s]"%(channel, state))
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
-			if self._printer.is_paused():
+			elif self._printer.is_paused():
 				self._printer.resume_print()
 
-		state2 = GPIO.input(self.PIN_STOP)
-		if not state2: 
-			self._logger.debug("Stop button [%s]!"%state2)
+		# state2 = GPIO.input(self.PIN_STOP)
+		# if not state2: 
+		elif channel == self.PIN_STOP
+			self._logger.debug("Stop button ([%s]) state [%s]"%(channel, state2))
 			if self._printer.is_printing():
 				self._printer.cancel_print()
-			if self._printer.is_ready():
-				self._printer.start_print()
-			if self._printer.is_paused():
+			elif self._printer.is_paused():
 				self._printer.cancel_print()
+			elif self._printer.is_ready():
+				self._printer.start_print()
 
-				
 	def get_version(self):
 		return self._plugin_version
 
