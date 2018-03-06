@@ -91,7 +91,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		self._logger.debug("Detected button [%s]"%channel)
 		# state = GPIO.input(self.PIN_PAUSE)
 		# if not state: 
-		if channel == self.PIN_PAUSE
+		if channel == self.PIN_PAUSE:
 			self._logger.debug("Pause button pushed")
 			# self._logger.debug("Pause button ([%s]) state [%s]"%(channel, state))
 			if self._printer.is_printing():
@@ -101,7 +101,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 
 		# state2 = GPIO.input(self.PIN_STOP)
 		# if not state2: 
-		elif channel == self.PIN_STOP
+		elif channel == self.PIN_STOP:
 			self._logger.debug("Stop button pushed")
 			# self._logger.debug("Stop button ([%s]) state [%s]"%(channel, state2))
 			if self._printer.is_printing():
