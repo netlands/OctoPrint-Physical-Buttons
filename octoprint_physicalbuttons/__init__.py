@@ -105,6 +105,8 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 				self._printer.cancel_print()
 			if self._printer.is_ready():
 				self._printer.start_print()
+			if self._printer.is_paused():
+				self._printer.cancel_print()
 
 				
 	def get_version(self):
