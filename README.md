@@ -7,11 +7,60 @@ Code is based almost completly on the Octoprint-Filament plugin by ǝuıɥsuooɯ
 
 ## Setup
 
-Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
-or manually using this URL:
-
-    https://github.com/netlands/OctoPrint-Physical-Buttons/archive/master.zip
-
 Using this plugin requires a two buttons connected to two of the Raspberry Pi's GPIO pins. The code is set to use the Raspberry Pi's internal Pull-Up resistors, so the switch should be between your detection pin and a ground pin.
 
-This plugin is using the GPIO.BOARD numbering scheme, the pin being used needs to be selected by the physical pin number.
+
+
+
+=== How to install ===
+
+ 1- Edit the Octoprint config file manually 
+ 
+ - `nano ~/.octoprint/config.yaml`
+ go down to the plugins section using arrows, and insert the filament settings
+ 
+ inside the
+ ```
+plugins:
+```
+section,  
+
+insert this respecting the spaces:
+ ```
+  buttons:
+    pause: XX
+    stop: XX
+    bounce: 400
+```
+Where XX is the GPIO number on your Raspberry Pi where you plug the signal (S) pin fo your sensor.
+Note that this plugin uses the GPIO.BOARD numbering scheme, the pin needs to be selected by its physical pin number.
+
+Save by typing ctrl-X and then Y (for yes)
+
+ 2- Give access to non-root user to the GPIO device
+ 
+  - `sudo chmod a+rw /dev/gpiomem`
+ 
+ 3- install the plugin using the [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager) in the Octoprint web interface
+
+http://octopi.local/#settings_plugin_pluginmanager
+Download the install from this URL:
+
+    https://github.com/netlands/OctoPrint-Physical-Buttons/archive/master.zip
+Install and then follow the instructions to restart Octoprint.
+
+ 4- Once Octoprint is restarted, test your sensor using the web get API.
+ 
+ Simply type the URL in your browser :
+ 
+ http://octopi.local/plugin/buttons/status?apikey=xxxxxxxxxxx
+ 
+ Where octopi.local is the local domain or IP of your octoprint server and the API key is the one found in http://octopi.local/#settings_api
+ 
+ It should return 
+ - `{status: "-1"}` the button is not setup
+- `{status: "0"}` the button is pressed (ON)
+- `{status: "1"}` the button is not pressed (OFF)
+
+### Donate
+If you use the plugin please feel free to [tip the original source](https://paypal.me/ovidiuhossu).
