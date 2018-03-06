@@ -34,7 +34,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 
 		if self.PIN_PAUSE != -1:
 			self._logger.info("Pause button setup on GPIO [%s]..."%self.PIN_PAUSE)
-			GPIO.setup(self.PIN_FILAMENT, GPIO.IN)
+			GPIO.setup(self.PIN_PAUSE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 	def get_settings_defaults(self):
 		return dict(
