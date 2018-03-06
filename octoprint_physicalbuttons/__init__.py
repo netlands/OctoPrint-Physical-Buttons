@@ -52,7 +52,10 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		status = "-1"
 		if self.PIN_PAUSE != -1:
 			status = "0" if GPIO.input(self.PIN_PAUSE) else "1"
-		return jsonify( status = status )
+		status2 = "-1"
+		if self.PIN_STOP != -1:
+			status2 = "0" if GPIO.input(self.PIN_STOP) else "1"
+		return jsonify( pause = status, stop = status2 )
 		
 	def on_event(self, event, payload):
 		if event == Events.PRINT_STARTED:
@@ -84,6 +87,8 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			self._logger.debug("Pause button [%s]!"%state)
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
+			if self._printer.is_paused():
+				self._printer.resume_print()
 
 		state2 = GPIO.input(self.PIN_STOP)
 		self._logger.debug("Detected button [%s] state [%s]? !"%(channel, state2))
@@ -91,7 +96,10 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			self._logger.debug("Stop button [%s]!"%state2)
 			if self._printer.is_printing():
 				self._printer.cancel_print()
+			if self._printer.is_ready():
+				self._printer.start_print()
 
+				
 	def get_version(self):
 		return self._plugin_version
 
