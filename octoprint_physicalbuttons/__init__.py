@@ -49,14 +49,21 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 
 	@octoprint.plugin.BlueprintPlugin.route("/status", methods=["GET"])
 	def check_status(self):
-		status = "-1"
+		state = "-1"
 		if self.PIN_PAUSE != -1:
-			status = "0" if GPIO.input(self.PIN_PAUSE) else "1"
-		status2 = "-1"
+			state = "0" if GPIO.input(self.PIN_PAUSE) else "1"
+		state2 = "-1"
 		if self.PIN_STOP != -1:
-			status2 = "0" if GPIO.input(self.PIN_STOP) else "1"
-		return jsonify( pause = status, stop = status2 )
-		
+			state2 = "0" if GPIO.input(self.PIN_STOP) else "1"
+		status = "unknown"
+		if self._printer.is_printing():
+			status = "printing"
+		if self._printer.is_ready():
+			status = "ready"
+		if self._printer.is_paused():
+			status = "paused"
+		return jsonify( pause = state, stop = state2, status = status )
+
 	def on_event(self, event, payload):
 		if event == Events.PRINT_STARTED:
 			self._logger.info("Printing started. Buttons enabled.")
