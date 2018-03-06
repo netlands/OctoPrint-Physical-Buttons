@@ -36,9 +36,14 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			self._logger.info("Pause button setup on GPIO [%s]..."%self.PIN_PAUSE)
 			GPIO.setup(self.PIN_PAUSE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+		if self.PIN_STOP != -1:
+			self._logger.info("Stop button setup on GPIO [%s]..."%self.PIN_STOP)
+			GPIO.setup(self.PIN_STOP, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 	def get_settings_defaults(self):
 		return dict(
-			pin = -1,
+			pause = -1,
+			stop = -1,
 			bounce = 300
 		)
 
@@ -46,42 +51,53 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 	def check_status(self):
 		status = "-1"
 		if self.PIN_PAUSE != -1:
-			status = "1" if GPIO.input(self.PIN_PAUSE) else "0"
+			status = "0" if GPIO.input(self.PIN_PAUSE) else "1"
 		return jsonify( status = status )
 		
 	def on_event(self, event, payload):
 		if event == Events.PRINT_STARTED:
-			self._logger.info("Printing started. Filament sensor enabled.")
+			self._logger.info("Printing started. Buttons enabled.")
 			self.setup_gpio()
 		elif event in (Events.PRINT_DONE, Events.PRINT_FAILED, Events.PRINT_CANCELLED):
-			self._logger.info("Printing stopped. Filament sensor disabled.")
+			self._logger.info("Printing stopped. Buttons disabled.")
 			try:
 				GPIO.remove_event_detect(self.PIN_PAUSE)
+				GPIO.remove_event_detect(self.PIN_STOP)
 			except:
 				pass
 
 	def setup_gpio(self):
 		try:
 			GPIO.remove_event_detect(self.PIN_PAUSE)
+			GPIO.remove_event_detect(self.PIN_STOP)
 		except:
 			pass
 		if self.PIN_PAUSE != -1:
-			GPIO.add_event_detect(self.PIN_PAUSE, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE) 
+			GPIO.add_event_detect(self.PIN_PAUSE, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE)
+		if self.PIN_STOP != -1:
+			GPIO.add_event_detect(self.PIN_STOP, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE)
 
 	def check_gpio(self, channel):
 		state = GPIO.input(self.PIN_PAUSE)
-		self._logger.debug("Detected sensor [%s] state [%s]? !"%(channel, state))
-		if not state: #safety pin ?
-			self._logger.debug("Sensor [%s]!"%state)
+		self._logger.debug("Detected button [%s] state [%s]? !"%(channel, state))
+		if not state: 
+			self._logger.debug("Pause button [%s]!"%state)
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
+
+		state2 = GPIO.input(self.PIN_STOP)
+		self._logger.debug("Detected button [%s] state [%s]? !"%(channel, state2))
+		if not state2: 
+			self._logger.debug("Stop button [%s]!"%state2)
+			if self._printer.is_printing():
+				self._printer.cancel_print()
 
 	def get_version(self):
 		return self._plugin_version
 
 	def get_update_information(self):
 		return dict(
-			octoprint_filament=dict(
+			octoprint_physicalbuttons=dict(
 				displayName="Physical Buttons",
 				displayVersion=self._plugin_version,
 
