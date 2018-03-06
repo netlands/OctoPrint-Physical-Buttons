@@ -25,7 +25,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setwarnings(False)
 		
-		self._logger.info("Filament Sensor Plugin [%s] initialized..."%self._identifier)
+		self._logger.info("Physical Buttons Plugin [%s] initialized..."%self._identifier)
 
 	def on_after_startup(self):
 		self.PIN_PAUSE = self._settings.get(["pause"])
@@ -92,6 +92,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		# state = GPIO.input(self.PIN_PAUSE)
 		# if not state: 
 		if channel == self.PIN_PAUSE
+			self._logger.debug("Pause button pushed")
 			# self._logger.debug("Pause button ([%s]) state [%s]"%(channel, state))
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
@@ -101,6 +102,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		# state2 = GPIO.input(self.PIN_STOP)
 		# if not state2: 
 		elif channel == self.PIN_STOP
+			self._logger.debug("Stop button pushed")
 			# self._logger.debug("Stop button ([%s]) state [%s]"%(channel, state2))
 			if self._printer.is_printing():
 				self._printer.cancel_print()
