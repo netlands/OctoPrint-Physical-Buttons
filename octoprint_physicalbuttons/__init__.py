@@ -88,8 +88,9 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			GPIO.add_event_detect(self.PIN_STOP, GPIO.FALLING, callback=self.check_gpio, bouncetime=self.BOUNCE)
 
 	def check_gpio(self, channel):
+		self._logger.debug("Detected button [%s]"%channel)
 		state = GPIO.input(self.PIN_PAUSE)
-		self._logger.debug("Detected button [%s] state [%s]? !"%(channel, state))
+		# self._logger.debug("Detected button [%s] state [%s]"%(channel, state))
 		if not state: 
 			self._logger.debug("Pause button [%s]!"%state)
 			if self._printer.is_printing():
@@ -98,7 +99,6 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 				self._printer.resume_print()
 
 		state2 = GPIO.input(self.PIN_STOP)
-		self._logger.debug("Detected button [%s] state [%s]? !"%(channel, state2))
 		if not state2: 
 			self._logger.debug("Stop button [%s]!"%state2)
 			if self._printer.is_printing():
