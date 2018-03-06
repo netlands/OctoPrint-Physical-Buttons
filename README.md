@@ -32,7 +32,7 @@ insert this respecting the spaces:
     bounce: 400
 ```
 Where XX is the GPIO pin number on your Raspberry Pi where the buttons are connected.
-Note that the plugin uses the GPIO.BOARD numbering scheme, the pin needs to be selected by its physical pin number (E.g., On a Raspberry Pi 3 GPIO21 equals physical pin 40). See https://pinout.xyz/
+Note that the plugin uses physical pin numbers, e.g., on a Raspberry Pi 3 GPIO21 equals physical pin 40. See https://pinout.xyz/
 
 Save by typing ctrl-X and then Y (for yes)
 
@@ -40,7 +40,8 @@ Save by typing ctrl-X and then Y (for yes)
  
   - `sudo chmod a+rw /dev/gpiomem`
  
- 3- install the plugin using the [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager) in the Octoprint web interface (http://octopi.local/#settings_plugin_pluginmanager)
+ 3- install the plugin using the [Plugin Manager](http://octopi.local/#settings_plugin_pluginmanager)
+ in the Octoprint web interface.
  
 Download the install from this URL:
     https://github.com/netlands/OctoPrint-Physical-Buttons/archive/master.zip
