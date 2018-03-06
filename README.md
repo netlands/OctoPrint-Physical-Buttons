@@ -50,11 +50,11 @@ Restart OctoPrint to complete the installation.
 
   #### 4. Once Octoprint is restarted, test the installation using the web **get** API
  
- Simply type the URL in your browser :
+ Simply type the URL in your browser:
  
  http://octopi.local/plugin/buttons/status?apikey=xxxxxxxxxxx
  
- Where octopi.local is the local domain or IP of your OctoPrint server and the API key is the one found under  **Settings** (the Tool icon at the top) > **API**
+ Where octopi.local is the local domain or IP of your OctoPrint server and the API key is the one found under  **Settings** (the Tool icon at the top) > **API**. You can test functionality while there is no printjob active.
  
  It should return something like below 
  - `{pause: "-1"}` the pause button is not setup
