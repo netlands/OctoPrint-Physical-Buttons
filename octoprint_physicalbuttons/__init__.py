@@ -45,7 +45,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		return dict(
 			pause = -1,
 			stop = -1,
-			bounce = 300
+			bounce = 300,
 			stopcode = "M112"
 		)
 
