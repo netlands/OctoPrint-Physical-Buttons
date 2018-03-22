@@ -31,6 +31,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 		self.PIN_PAUSE = self._settings.get(["pause"])
 		self.PIN_STOP = self._settings.get(["stop"])
 		self.BOUNCE = self._settings.get_int(["bounce"])
+        self.STOPCODE = self._settings.get_int(["stopcode"])
 
 		if self.PIN_PAUSE != -1:
 			self._logger.info("Pause button setup on GPIO [%s]..."%self.PIN_PAUSE)
@@ -45,6 +46,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			pause = -1,
 			stop = -1,
 			bounce = 300
+            stopcode = "M112"
 		)
 
 	@octoprint.plugin.BlueprintPlugin.route("/status", methods=["GET"])
@@ -105,11 +107,12 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			self._logger.debug("Stop button pushed")
 			# self._logger.debug("Stop button ([%s]) state [%s]"%(channel, state2))
 			if self._printer.is_printing():
-				self._printer.cancel_print()
+				# self._printer.cancel_print()
+                self._printer.commands(self.STOPCODE)
 			elif self._printer.is_paused():
 				self._printer.cancel_print()
-			elif self._printer.is_ready():
-				self._printer.start_print()
+			# elif self._printer.is_ready():
+			# 	self._printer.start_print()
 
 	def get_version(self):
 		return self._plugin_version
