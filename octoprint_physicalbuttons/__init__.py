@@ -108,7 +108,7 @@ class PhysicalButtonsPlugin(octoprint.plugin.StartupPlugin,
 			# self._logger.debug("Stop button ([%s]) state [%s]"%(channel, state2))
 			if self._printer.is_printing():
 				# self._printer.cancel_print()
-                self._printer.commands(self.STOPCODE)
+				self._printer.commands(self.STOPCODE)
 			elif self._printer.is_paused():
 				self._printer.cancel_print()
 			# elif self._printer.is_ready():
